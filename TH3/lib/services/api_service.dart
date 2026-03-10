@@ -5,10 +5,9 @@ import '../models/product.dart';
 class ApiService {
   final String baseUrl = "https://fakestoreapi.com/products";
 
-  // Lấy tất cả sản phẩm hoặc theo danh mục
   Future<List<Product>> fetchProducts({String? category}) async {
     try {
-      await Future.delayed(const Duration(milliseconds: 800)); // Delay nhẹ cho mượt
+      await Future.delayed(const Duration(milliseconds: 800)); 
       
       String url = (category == null || category == "Tất cả") 
           ? baseUrl 
@@ -27,7 +26,6 @@ class ApiService {
     }
   }
 
-  // Lấy danh sách các danh mục
   Future<List<String>> fetchCategories() async {
     try {
       final response = await http.get(Uri.parse("$baseUrl/categories"));

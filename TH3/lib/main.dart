@@ -14,7 +14,6 @@ class MyApp extends StatelessWidget {
       title: 'Call API App',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        // Sử dụng màu Đỏ làm màu hạt giống (seed)
         colorScheme: ColorScheme.fromSeed(
           seedColor: const Color(0xFFFF4D4D),
           primary: const Color(0xFFFF4D4D),

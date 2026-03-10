@@ -5,7 +5,7 @@ class Note {
   String title;
   String content;
   DateTime lastModified;
-  String? imageUrl; // Thêm trường đường dẫn ảnh
+  String? imageUrl;
 
   Note({
     required this.id,

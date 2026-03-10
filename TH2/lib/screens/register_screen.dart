@@ -26,8 +26,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
         email: _emailController.text.trim(),
         password: _passwordController.text.trim(),
       );
-      // Khi đăng ký thành công, Firebase sẽ tự emit authStateChanges.
-      // Chúng ta chỉ cần đóng màn hình Register này lại.
       if (mounted) {
         Navigator.pop(context);
       }

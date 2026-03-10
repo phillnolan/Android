@@ -48,7 +48,7 @@ class _DetailScreenState extends State<DetailScreen> {
       if (editedFile != null) {
         setState(() {
           _localImageFile = editedFile;
-          _imageUrl = null; // Ưu tiên hiển thị file local vừa sửa
+          _imageUrl = null; 
         });
       }
     }
@@ -64,7 +64,6 @@ class _DetailScreenState extends State<DetailScreen> {
     String? finalImageUrl = _imageUrl;
 
     try {
-      // Nếu có ảnh mới cục bộ, upload lên Storage trước
       if (_localImageFile != null) {
         finalImageUrl = await _firestoreService.uploadImage(_localImageFile!, _noteId);
       }

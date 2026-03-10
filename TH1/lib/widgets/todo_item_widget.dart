@@ -36,7 +36,7 @@ class TodoItemWidget extends StatelessWidget {
     } else if (duration.inDays > 0 || duration.inHours > 0) {
       return Colors.orange;
     } else {
-      return Colors.red; // Less than an hour remaining
+      return Colors.red;
     }
   }
 

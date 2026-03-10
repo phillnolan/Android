@@ -8,7 +8,6 @@ class ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Định nghĩa màu sắc từ tông chủ đạo
     const Color primaryRed = Color(0xFFFF4D4D);
     const Color secondaryCyan = Color(0xFF00E5CC);
 
@@ -27,7 +26,6 @@ class ProductCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Hình ảnh sản phẩm
           Expanded(
             flex: 6,
             child: Container(
@@ -50,7 +48,6 @@ class ProductCard extends StatelessWidget {
             ),
           ),
           
-          // Thông tin sản phẩm
           Expanded(
             flex: 4,
             child: Padding(
@@ -75,7 +72,7 @@ class ProductCard extends StatelessWidget {
                       Text(
                         "\$${product.price}",
                         style: const TextStyle(
-                          color: primaryRed, // Dùng màu đỏ cho giá nổi bật
+                          color: primaryRed, 
                           fontWeight: FontWeight.w900,
                           fontSize: 16,
                         ),

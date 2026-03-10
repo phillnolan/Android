@@ -225,10 +225,7 @@ class _TaskListScreenState extends State<TaskListScreen> {
                       return TodoItemWidget(
                         task: task,
                         onToggle: () {
-                          // First, notify the parent to update the master list
                           widget.onToggleTask(task.id);
-                          
-                          // Then, optimistically update the local state for instant UI feedback
                           setState(() {
                             final localTask = _tasks.firstWhere((t) => t.id == task.id, orElse: () => task);
                             localTask.isCompleted = !localTask.isCompleted;

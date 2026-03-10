@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 import 'models/task.dart';
 import 'models/category.dart';
-import 'task_list_screen.dart'; // Import the new screen
+import 'task_list_screen.dart'; 
 
 void main() {
   runApp(const MyApp());
@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
           foregroundColor: Colors.white,
         ),
       ),
-      home: const CategoryGridScreen(), // The new home screen
+      home: const CategoryGridScreen(), 
       debugShowCheckedModeBanner: false,
     );
   }

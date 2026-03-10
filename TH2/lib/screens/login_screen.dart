@@ -29,7 +29,6 @@ class _LoginScreenState extends State<LoginScreen> {
         email: _emailController.text.trim(),
         password: _passwordController.text.trim(),
       );
-      // KHÔNG dùng Navigator ở đây, StreamBuilder trong main.dart sẽ tự chuyển
     } on FirebaseAuthException catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -76,7 +75,6 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // Toggle Log In / Sign Up (Nhấn được)
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

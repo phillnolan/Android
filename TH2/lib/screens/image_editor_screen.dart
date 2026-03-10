@@ -12,7 +12,6 @@ class ImageEditorScreen extends StatefulWidget {
 }
 
 class _ImageEditorScreenState extends State<ImageEditorScreen> {
-  // Sử dụng Controller cho ImagePainter
   final ImagePainterController _controller = ImagePainterController();
 
   Future<void> _saveImage() async {
@@ -40,7 +39,7 @@ class _ImageEditorScreenState extends State<ImageEditorScreen> {
       ),
       body: ImagePainter.file(
         widget.imageFile,
-        controller: _controller, // Sử dụng controller thay cho key
+        controller: _controller, 
         scalable: true,
       ),
     );

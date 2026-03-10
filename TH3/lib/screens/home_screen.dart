@@ -16,7 +16,6 @@ class _HomeScreenState extends State<HomeScreen> {
   late Future<List<String>> _futureCategories;
   String _selectedCategory = "Tất cả";
 
-  // Màu sắc chủ đạo
   static const Color primaryRed = Color(0xFFFF4D4D);
   static const Color secondaryCyan = Color(0xFF00E5CC);
 
@@ -49,7 +48,6 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: Column(
         children: [
-          // Phần Danh mục (Categories)
           SizedBox(
             height: 60,
             child: FutureBuilder<List<String>>(
@@ -100,7 +98,6 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           
-          // Phần Lưới Sản phẩm (GridView)
           Expanded(
             child: FutureBuilder<List<Product>>(
               future: _futureProducts,
