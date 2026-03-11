@@ -45,6 +45,17 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: primaryRed,
         foregroundColor: Colors.white,
         elevation: 2,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.wifi_off),
+            tooltip: 'Giả lập mất mạng',
+            onPressed: () {
+              setState(() {
+                _futureProducts = Future.error('Mất kết nối mạng.\\nVui lòng kiểm tra lại đường truyền internet của bạn.');
+              });
+            },
+          ),
+        ],
       ),
       body: Column(
         children: [
@@ -150,7 +161,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ElevatedButton.icon(
               onPressed: _loadData,
               icon: const Icon(Icons.refresh),
-              label: const Text("THỬ LẠI NGAY"),
+              label: const Text("Thử lại"),
               style: ElevatedButton.styleFrom(
                 backgroundColor: primaryRed,
                 foregroundColor: Colors.white,

@@ -126,9 +126,20 @@ class _TaskListScreenState extends State<TaskListScreen> {
                 TextButton(onPressed: () => Navigator.of(context).pop(), child: const Text('Hủy')),
                 ElevatedButton(
                   onPressed: () {
-                    final title = titleController.text;
+                    final title = titleController.text.trim();
                     if (title.isEmpty) {
                       setDialogState(() => errorText = 'Nội dung không được để trống!');
+                      return;
+                    }
+
+                    // Check for duplicate task name
+                    final isDuplicate = _tasks.any((t) => 
+                      t.title.trim().toLowerCase() == title.toLowerCase() &&
+                      (!isEditing || t.id != task!.id)
+                    );
+
+                    if (isDuplicate) {
+                      setDialogState(() => errorText = 'Công việc đã tồn tại!');
                       return;
                     }
 
