@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:th4/core/constants/app_constants.dart';
-import 'package:th4/core/constants/currency_utils.dart';
+import 'package:th4/models/product_model.dart';
 import 'package:th4/widgets/product_detail/product_attributes_bottom_sheet.dart';
 
 class ProductDetailScreen extends StatelessWidget {
@@ -29,10 +28,12 @@ class ProductDetailScreen extends StatelessWidget {
               flexibleSpace: FlexibleSpaceBar(
                 background: Hero(
                   tag: 'product-${product.id}',
-                  child: Image.network(
-                    product.image,
-                    fit: BoxFit.contain,
-                    backgroundColor: Colors.white,
+                  child: Container(
+                    color: Colors.white,
+                    child: Image.network(
+                      product.image,
+                      fit: BoxFit.contain,
+                    ),
                   ),
                 ),
               ),
@@ -62,7 +63,7 @@ class ProductDetailScreen extends StatelessWidget {
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                     decoration: BoxDecoration(
-                      color: Colors.blue.withOpacity(0.1),
+                      color: Colors.blue.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(4),
                     ),
                     child: Text(
@@ -150,14 +151,15 @@ class ProductDetailScreen extends StatelessWidget {
           ),
         ],
       ),
-      // Bottom Action Bar (Temporary as per Story 2.1 focus)
-      bottomNavigationBar: Container(
+    ),
+    // Bottom Action Bar (Temporary as per Story 2.1 focus)
+    bottomNavigationBar: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: Colors.white,
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.05),
+              color: Colors.black.withValues(alpha: 0.05),
               blurRadius: 10,
               offset: const Offset(0, -5),
             ),

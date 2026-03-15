@@ -4,6 +4,7 @@ import 'package:shimmer/shimmer.dart';
 import 'package:th4/core/api_state.dart';
 import 'package:th4/providers/product_provider.dart';
 import 'package:th4/providers/cart_provider.dart';
+import 'package:th4/core/routes.dart';
 import 'package:th4/widgets/common/product_card.dart';
 import 'package:th4/widgets/home/banner_slider.dart';
 
@@ -22,7 +23,10 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     _scrollController.addListener(_onScroll);
     Future.microtask(
-      () => context.read<ProductProvider>().fetchProducts(),
+      () {
+        if (!mounted) return;
+        context.read<ProductProvider>().fetchProducts();
+      },
     );
   }
 
@@ -275,7 +279,7 @@ class _HomeScreenState extends State<HomeScreen> {
           return Column(
             children: [
               CircleAvatar(
-                backgroundColor: Colors.blue.withOpacity(0.1),
+                backgroundColor: Colors.blue.withValues(alpha: 0.1),
                 child: Icon(categories[index]['icon'], color: Colors.blue),
               ),
               const SizedBox(height: 4),

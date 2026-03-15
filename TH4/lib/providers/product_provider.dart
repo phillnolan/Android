@@ -32,7 +32,7 @@ class ProductProvider with ChangeNotifier {
     try {
       final result = await _apiService.getProducts(limit: _currentLimit);
 
-      if (result is ApiSuccess) {
+      if (result is ApiSuccess<List<ProductModel>>) {
         _productsState = result;
         if (result.data.length < _currentLimit) {
           _hasMore = false;
@@ -56,9 +56,9 @@ class ProductProvider with ChangeNotifier {
       final nextLimit = _currentLimit + AppConstants.pageSize;
       final result = await _apiService.getProducts(limit: nextLimit);
 
-      if (result is ApiSuccess) {
+      if (result is ApiSuccess<List<ProductModel>>) {
         final newData = result.data;
-        final currentData = (_productsState as ApiSuccess).data;
+        final currentData = (_productsState as ApiSuccess<List<ProductModel>>).data;
 
         // Cập nhật limit hiện tại
         _currentLimit = nextLimit;

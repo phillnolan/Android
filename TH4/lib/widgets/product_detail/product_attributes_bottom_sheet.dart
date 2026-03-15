@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:th4/core/constants/app_constants.dart';
-import 'package:th4/core/constants/currency_utils.dart';
 import 'package:th4/models/product_model.dart';
 
 class ProductAttributesBottomSheet extends StatefulWidget {
@@ -105,7 +103,7 @@ class _ProductAttributesBottomSheetState extends State<ProductAttributesBottomSh
                 onSelected: (selected) {
                   setState(() => _selectedSize = selected ? size : null);
                 },
-                selectedColor: Theme.of(context).primaryColor.withOpacity(0.2),
+                selectedColor: Theme.of(context).primaryColor.withValues(alpha: 0.2),
                 checkmarkColor: Theme.of(context).primaryColor,
                 labelStyle: TextStyle(
                   color: isSelected ? Theme.of(context).primaryColor : Colors.black,

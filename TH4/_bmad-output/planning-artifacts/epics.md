@@ -143,6 +143,40 @@ So that tôi có thể tùy chỉnh nhanh chóng và quay lại xem thông tin s
 Người dùng có toàn quyền kiểm soát giỏ hàng với logic tính toán tổng tiền Real-time, đồng bộ Checkbox 2 chiều và thao tác xóa nhanh chóng.
 **FRs covered:** FR5, FR6, FR7, FR8, NFR1, NFR2, NFR3, UX-DR3.
 
+### Story 3.1: Xây dựng Cart Provider và Giao diện Giỏ hàng cơ bản
+As a người dùng,
+I want xem danh sách các món hàng đã chọn và tổng tiền thanh toán được cập nhật ngay lập tức,
+So that tôi có thể kiểm soát chi phí mua sắm của mình.
+
+**Acceptance Criteria:**
+- **Given** người dùng đã thêm ít nhất một sản phẩm vào giỏ
+- **When** người dùng thay đổi số lượng (+) (-) hoặc tick/untick sản phẩm
+- **Then** tổng số tiền thanh toán dưới đáy màn hình phải cập nhật tức thì (< 100ms)
+- **And** nút "Chọn tất cả" phải đồng bộ trạng thái chính xác với các item đơn lẻ
+- **And** thao tác vuốt để xóa (Dismissible) phải hiển thị hộp thoại xác nhận trước khi thực hiện
+
 ### Epic 4: Lưu trữ & Lịch sử Đơn hàng (Persistence & Purchase History)
 Người dùng không bị mất dữ liệu giỏ hàng khi thoát ứng dụng và có thể theo dõi trạng thái các đơn hàng đã đặt qua giao diện Tab chuyên nghiệp.
 **FRs covered:** FR9, FR11.
+
+### Story 4.1: Lưu trữ Giỏ hàng Offline với SharedPreferences
+As a khách hàng,
+I want giỏ hàng của mình vẫn còn nguyên khi tôi mở lại ứng dụng sau khi đã thoát hẳn,
+So that tôi không lãng phí thời gian chọn lại sản phẩm.
+
+**Acceptance Criteria:**
+- **Given** có sản phẩm trong giỏ hàng
+- **When** ứng dụng bị đóng hoặc khởi động lại
+- **Then** trạng thái giỏ hàng (sản phẩm, thuộc tính, số lượng) phải được khôi phục hoàn toàn
+- **And** sử dụng SharedPreferences để thực hiện persistence dữ liệu local
+
+### Story 4.2: Màn hình Lịch sử Đơn hàng với TabBar phân loại
+As a khách hàng,
+I want xem các đơn hàng của mình được phân loại rõ ràng theo trạng thái,
+So that tôi dễ dàng theo dõi quá trình giao nhận.
+
+**Acceptance Criteria:**
+- **Given** người dùng vào mục "Đơn mua"
+- **When** vuốt ngang màn hình hoặc nhấn vào các Tab
+- **Then** ứng dụng phải chuyển đổi mượt mà giữa các Tab: Chờ xác nhận, Đang giao, Đã giao, Đã hủy
+- **And** mỗi Tab hiển thị danh sách đơn hàng tương ứng với thiết kế thẻ (Card) chuẩn thương mại điện tử
