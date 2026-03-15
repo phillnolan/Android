@@ -1,3 +1,6 @@
+import 'package:th4/core/constants/app_constants.dart';
+import 'package:th4/core/constants/currency_utils.dart';
+
 class ProductModel {
   final int id;
   final String title;
@@ -16,6 +19,10 @@ class ProductModel {
     required this.image,
     required this.rating,
   });
+
+  // Business Logic: Chuyển đổi giá sang VNĐ và Format
+  double get priceInVND => price * AppConstants.exchangeRate;
+  String get formattedPrice => CurrencyUtils.formatVND(priceInVND);
 
   factory ProductModel.fromJson(Map<String, dynamic> json) {
     return ProductModel(

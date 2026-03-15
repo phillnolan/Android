@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:th4/core/constants/app_constants.dart';
 import 'package:th4/core/constants/currency_utils.dart';
-import 'package:th4/models/product_model.dart';
+import 'package:th4/widgets/product_detail/product_attributes_bottom_sheet.dart';
 
 class ProductDetailScreen extends StatelessWidget {
   final ProductModel product;
@@ -91,7 +91,7 @@ class ProductDetailScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        CurrencyUtils.formatVND(product.price * AppConstants.exchangeRate),
+                        product.formattedPrice,
                         style: TextStyle(
                           fontSize: 22,
                           color: Theme.of(context).primaryColor,
@@ -171,92 +171,34 @@ class ProductDetailScreen extends StatelessWidget {
                 borderRadius: BorderRadius.circular(8),
               ),
               child: IconButton(
-                icon: const Icon(Icons.chat_outlined),
-                onPressed: () {},
+                icon: const Icon(Icons.shopping_cart_outlined),
+                onPressed: () => _showAttributeSelector(context),
               ),
             ),
             const SizedBox(width: 12),
-            Container(
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.grey[300]!),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: IconButton(
-                icon: const Icon(Icons.shopping_cart_outlined),
-                onPressed: () {},
+            Expanded(
+              child: OutlinedButton(
+                onPressed: () => _showAttributeSelector(context),
+                style: OutlinedButton.styleFrom(
+                  side: BorderSide(color: Theme.of(context).primaryColor),
+                  foregroundColor: Theme.of(context).primaryColor,
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+                child: const Text(
+                  'Thêm vào giỏ',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
               ),
             ),
             const SizedBox(width: 12),
             Expanded(
               child: ElevatedButton(
-                onPressed: () {
-                  showModalBottomSheet(
-                    context: context,
-                    isScrollControlled: true,
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-                    ),
-                    builder: (context) => DraggableScrollableSheet(
-                      initialChildSize: 0.4,
-                      minChildSize: 0.2,
-                      maxChildSize: 0.75,
-                      expand: false,
-                      builder: (context, scrollController) => SingleChildScrollView(
-                        controller: scrollController,
-                        child: Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  Image.network(product.image, height: 80, width: 80, fit: BoxFit.contain),
-                                  const SizedBox(width: 16),
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text(product.title, maxLines: 2, overflow: TextOverflow.ellipsis,
-                                          style: const TextStyle(fontWeight: FontWeight.bold)),
-                                        Text(CurrencyUtils.formatVND(product.price * AppConstants.exchangeRate),
-                                          style: const TextStyle(color: Colors.blue, fontWeight: FontWeight.bold)),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              const Divider(),
-                              const Text('Số lượng', style: TextStyle(fontWeight: FontWeight.bold)),
-                              Row(
-                                children: [
-                                  IconButton(onPressed: () {}, icon: const Icon(Icons.remove_circle_outline)),
-                                  const Text('1'),
-                                  IconButton(onPressed: () {}, icon: const Icon(Icons.add_circle_outline)),
-                                ],
-                              ),
-                              const SizedBox(height: 16),
-                              SizedBox(
-                                width: double.infinity,
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(content: Text('Thêm thành công')),
-                                    );
-                                  },
-                                  style: ElevatedButton.styleFrom(backgroundColor: Colors.blue, foregroundColor: Colors.white),
-                                  child: const Text('Xác nhận'),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  );
-                },
+                onPressed: () => _showAttributeSelector(context),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue,
+                  backgroundColor: Theme.of(context).primaryColor,
                   foregroundColor: Colors.white,
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   shape: RoundedRectangleBorder(
@@ -264,7 +206,7 @@ class ProductDetailScreen extends StatelessWidget {
                   ),
                 ),
                 child: const Text(
-                  'Thêm vào giỏ hàng',
+                  'Mua ngay',
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
               ),
@@ -272,6 +214,17 @@ class ProductDetailScreen extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  void _showAttributeSelector(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) => ProductAttributesBottomSheet(product: product),
     );
   }
 }
