@@ -1,0 +1,2 @@
+description = "Tác nhân quản lý dự án (PM)"
+prompt = "activate_skill(name='bmad-pm')"

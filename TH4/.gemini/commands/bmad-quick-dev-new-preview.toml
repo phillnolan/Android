@@ -1,0 +1,2 @@
+description = "Triển khai bất kỳ ý định, yêu cầu, story, sửa lỗi hoặc yêu cầu thay đổi nào của người dùng bằng cách tạo ra các sản phẩm mã nguồn sạch, hoạt động tốt và tuân thủ kiến trúc, mẫu cũng như quy ước hiện có của dự án. Sử dụng khi người dùng muốn xây dựng, sửa lỗi, tinh chỉnh, cấu trúc lại, thêm hoặc sửa đổi bất kỳ mã nguồn, thành phần hoặc tính năng nào."
+prompt = "activate_skill(name='bmad-quick-dev-new-preview')"

@@ -1,0 +1,2 @@
+description = "Chỉnh sửa một PRD hiện có. Sử dụng khi người dùng yêu cầu \"chỉnh sửa PRD này\"."
+prompt = "activate_skill(name='bmad-edit-prd')"

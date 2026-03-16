@@ -1,0 +1,2 @@
+description = "Tác nhân đảm bảo chất lượng (QA)"
+prompt = "activate_skill(name='bmad-qa')"

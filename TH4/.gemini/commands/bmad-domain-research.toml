@@ -1,0 +1,2 @@
+description = "Thực hiện nghiên cứu lĩnh vực và ngành công nghiệp. Sử dụng khi người dùng yêu cầu \"tạo báo cáo nghiên cứu về [lĩnh vực hoặc ngành]\"."
+prompt = "activate_skill(name='bmad-domain-research')"

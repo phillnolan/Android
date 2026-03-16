@@ -1,0 +1,2 @@
+description = "Tạo tệp project-context.md với các quy tắc AI. Sử dụng khi người dùng yêu cầu \"tạo ngữ cảnh dự án\"."
+prompt = "activate_skill(name='bmad-generate-project-context')"

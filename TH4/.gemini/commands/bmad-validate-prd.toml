@@ -1,0 +1,2 @@
+description = "Xác thực một PRD dựa trên các tiêu chuẩn. Sử dụng khi người dùng yêu cầu \"xác thực PRD này\" hoặc \"thực hiện xác thực PRD\""
+prompt = "activate_skill(name='bmad-validate-prd')"

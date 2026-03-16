@@ -1,0 +1,2 @@
+description = "Điều phối các cuộc thảo luận nhóm giữa tất cả các tác nhân BMAD đã cài đặt, cho phép các cuộc hội thoại đa tác nhân tự nhiên. Sử dụng khi người dùng yêu cầu chế độ thảo luận nhóm (party mode)."
+prompt = "activate_skill(name='bmad-party-mode')"

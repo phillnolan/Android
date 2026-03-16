@@ -1,0 +1,2 @@
+description = "Tạo một tệp story chuyên dụng với đầy đủ ngữ cảnh mà tác nhân sẽ cần để triển khai sau này. Sử dụng khi người dùng yêu cầu \"tạo story tiếp theo\" hoặc \"tạo story [mã định danh story]\"."
+prompt = "activate_skill(name='bmad-create-story')"

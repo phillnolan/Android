@@ -1,0 +1,2 @@
+description = "Thực hiện xem xét mã nguồn theo hướng phản biện để tìm các vấn đề cụ thể. Sử dụng khi người dùng yêu cầu \"chạy xem xét mã nguồn\" hoặc \"xem xét đoạn mã này\"."
+prompt = "activate_skill(name='bmad-code-review')"

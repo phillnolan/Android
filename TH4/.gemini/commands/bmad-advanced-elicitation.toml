@@ -1,0 +1,2 @@
+description = "Thúc đẩy LLM xem xét lại, tinh chỉnh và cải thiện kết quả gần đây của nó. Sử dụng khi người dùng yêu cầu gợi mở chuyên sâu (advanced elicitation)."
+prompt = "activate_skill(name='bmad-advanced-elicitation')"

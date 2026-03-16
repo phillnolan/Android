@@ -1,0 +1,2 @@
+description = "Biên tập viên cấu trúc đề xuất cắt giảm, tổ chức lại và đơn giản hóa trong khi vẫn đảm bảo tính dễ hiểu. Sử dụng khi người dùng yêu cầu xem xét cấu trúc hoặc biên tập cấu trúc văn bản."
+prompt = "activate_skill(name='bmad-editorial-review-structure')"

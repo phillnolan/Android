@@ -1,0 +1,2 @@
+description = "Phân tích những việc đã thực hiện và truy vấn của người dùng để đưa ra lời khuyên về bước tiếp theo. Sử dụng khi người dùng hỏi nên làm gì tiếp theo hoặc bây giờ phải làm gì."
+prompt = "activate_skill(name='bmad-help')"

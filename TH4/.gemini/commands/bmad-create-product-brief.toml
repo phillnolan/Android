@@ -1,0 +1,2 @@
+description = "Tạo bản tóm tắt sản phẩm (product brief) thông qua quá trình khám phá cộng tác. Sử dụng khi người dùng yêu cầu \"tạo bản tóm tắt sản phẩm\" hoặc \"giúp tôi tạo bản tóm tắt dự án\"."
+prompt = "activate_skill(name='bmad-create-product-brief')"

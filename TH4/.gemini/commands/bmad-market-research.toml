@@ -1,0 +1,2 @@
+description = "Thực hiện nghiên cứu thị trường về đối thủ cạnh tranh và khách hàng. Sử dụng khi người dùng yêu cầu \"tạo báo cáo nghiên cứu thị trường về [ý tưởng kinh doanh]\"."
+prompt = "activate_skill(name='bmad-market-research')"

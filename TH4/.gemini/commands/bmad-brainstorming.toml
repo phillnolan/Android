@@ -1,0 +1,2 @@
+description = "Hỗ trợ các buổi động não (brainstorming) tương tác bằng cách sử dụng các kỹ thuật sáng tạo và phương pháp hình thành ý tưởng đa dạng. Sử dụng khi người dùng yêu cầu giúp động não hoặc tìm ý tưởng."
+prompt = "activate_skill(name='bmad-brainstorming')"

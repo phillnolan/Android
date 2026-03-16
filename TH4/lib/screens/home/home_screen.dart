@@ -67,7 +67,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
               pinned: true,
               expandedHeight: 120.0,
               flexibleSpace: FlexibleSpaceBar(
-                title: const Text('TH4 - Nhóm 64',
+                title: const Text('TH4 - Nhóm 14',
                     style: TextStyle(color: Colors.white)),
                 background: Container(color: Colors.blue),
               ),
