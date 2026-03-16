@@ -91,14 +91,15 @@ So that ứng dụng có dữ liệu thực tế để hiển thị.
 
 ### Story 1.3: Màn hình Home với SliverAppBar và Search Bar "Sticky"
 As a người dùng,
-I want thấy một thanh tìm kiếm luôn hiển thị ở đầu trang và Carousel banner bắt mắt,
-So that tôi có thể dễ dàng tìm kiếm sản phẩm và xem các chương trình khuyến mãi.
+I want thấy một thanh tìm kiếm luôn hiển thị ở đầu trang, Carousel banner bắt mắt và hiệu ứng chuyển đổi danh mục mượt mà,
+So that tôi có thể dễ dàng tìm kiếm sản phẩm và không bị gián đoạn thị giác khi lọc hàng.
 
 **Acceptance Criteria:**
-**Given** người dùng đang ở màn hình Home
-**When** người dùng cuộn trang xuống dưới
-**Then** `SliverAppBar` phải thu nhỏ nhưng `SearchBar` vẫn được giữ lại (Sticky) ở đỉnh màn hình
-**And** Carousel banner phải tự động chạy mượt mài
+- **Given** người dùng đang ở màn hình Home
+- **When** người dùng cuộn trang xuống dưới
+- **Then** `SliverAppBar` phải thu nhỏ nhưng `SearchBar` vẫn được giữ lại (Sticky) ở đỉnh màn hình
+- **And** khi nhấn vào các danh mục sản phẩm dưới Banner, danh sách sản phẩm phải chuyển đổi với hiệu ứng mượt mà (Fade/Slide Transition).
+- **And** Carousel banner phải tự động chạy mượt mà.
 
 ### Story 1.4: Hiển thị Danh sách sản phẩm với Infinite Scroll
 As a người dùng,
@@ -129,15 +130,16 @@ So that tôi cảm thấy ứng dụng cao cấp và không bị mất dấu mó
 
 ### Story 2.2: Lựa chọn thuộc tính sản phẩm qua BottomSheet
 As a người dùng,
-I want chọn kích cỡ (Size), màu sắc và số lượng thông qua một bảng đẩy lên từ đáy màn hình thay vì chuyển sang trang mới,
-So that tôi có thể tùy chỉnh nhanh chóng và quay lại xem thông tin sản phẩm dễ dàng.
+I want chọn thuộc tính qua BottomSheet và có thể đi nhanh tới giỏ hàng từ trang chi tiết,
+So that tôi có thể mua sắm linh hoạt và nhanh chóng.
 
 **Acceptance Criteria:**
-**Given** người dùng đang ở màn hình Chi tiết sản phẩm
-**When** nhấn nút "Chọn phân loại" hoặc "Thêm vào giỏ"
-**Then** một `BottomSheet` phải hiện lên hiển thị danh sách Size, Màu sắc và bộ chọn số lượng
-**And** các lựa chọn phải được phản hồi ngay lập tức trên UI của BottomSheet
-**And** có nút xác nhận để đóng bảng và lưu tạm lựa chọn
+- **Given** người dùng đang ở màn hình Chi tiết sản phẩm
+- **When** nhấn nút "Thêm vào giỏ"
+- **Then** một `BottomSheet` phải hiện lên để chọn Size, Màu sắc và Số lượng.
+- **When** người dùng nhấn icon Giỏ hàng ở góc phải trên cùng
+- **Then** ứng dụng phải chuyển ngay sang màn hình Giỏ hàng (không mở BottomSheet).
+- **And** khi thêm hàng thành công, SnackBar phải hiển thị đẹp mắt với nút "Xem ngay" hoạt động đúng (đi tới Giỏ hàng).
 
 ### Epic 3: Quản lý Giỏ hàng Thông minh (Cart Intelligence & Management)
 Người dùng có toàn quyền kiểm soát giỏ hàng với logic tính toán tổng tiền Real-time, đồng bộ Checkbox 2 chiều và thao tác xóa nhanh chóng.
@@ -180,3 +182,21 @@ So that tôi dễ dàng theo dõi quá trình giao nhận.
 - **When** vuốt ngang màn hình hoặc nhấn vào các Tab
 - **Then** ứng dụng phải chuyển đổi mượt mà giữa các Tab: Chờ xác nhận, Đang giao, Đã giao, Đã hủy
 - **And** mỗi Tab hiển thị danh sách đơn hàng tương ứng với thiết kế thẻ (Card) chuẩn thương mại điện tử
+
+## Epic 5: Thanh toán & Hoàn tất (Checkout & Finalization)
+Người dùng có thể nhập thông tin nhận hàng, kiểm tra lại đơn hàng lần cuối và tiến hành đặt hàng để hoàn tất luồng mua sắm.
+
+### Story 5.1: Xây dựng màn hình Checkout và logic Đặt hàng
+As a người dùng,
+I want nhập thông tin nhận hàng và nhận được thông báo chúc mừng khi đặt hàng thành công,
+So that tôi cảm thấy yên tâm và hài lòng với giao dịch của mình.
+
+**Acceptance Criteria:**
+- **Given** người dùng nhấn nút "Thanh toán" từ màn hình Giỏ hàng.
+- **When** màn hình Checkout hiển thị.
+- **Then** người dùng có thể nhập các thông tin: Họ tên, Số điện thoại, Địa chỉ.
+- **And** hiển thị tóm tắt đơn hàng (Tổng số lượng, Tổng tiền cuối cùng).
+- **And** khi nhấn "Xác nhận đặt hàng", hệ thống phải:
+    1. Gọi hàm xóa sạch giỏ hàng trong `CartProvider`.
+    2. Hiển thị **Success Overlay/Screen** (Hiệu ứng chúc mừng đặt hàng thành công).
+    3. Điều hướng người dùng về màn hình Home hoặc Lịch sử đơn hàng sau khi hoàn tất.

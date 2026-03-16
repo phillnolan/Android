@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:th4/core/constants/currency_utils.dart';
+import 'package:th4/models/cart_item_model.dart';
 import 'package:th4/providers/cart_provider.dart';
+
+import 'package:th4/core/routes.dart';
 
 class CartScreen extends StatelessWidget {
   const CartScreen({super.key});
@@ -77,7 +80,7 @@ class CartScreen extends StatelessWidget {
           const Text('Chọn tất cả', style: TextStyle(fontWeight: FontWeight.bold)),
           const Spacer(),
           TextButton(
-            onPressed: () => cart.clear(),
+            onPressed: () => cart.clearCart(),
             child: const Text('Xóa tất cả', style: TextStyle(color: Colors.red)),
           )
         ],
@@ -85,7 +88,7 @@ class CartScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildCartItem(BuildContext context, CartProvider cart, String key, dynamic item) {
+  Widget _buildCartItem(BuildContext context, CartProvider cart, String key, CartItemModel item) {
     return Dismissible(
       key: Key(key),
       direction: DismissDirection.endToStart,
@@ -138,7 +141,7 @@ class CartScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      CurrencyUtils.formatVND(item.product.price * 25000), // Đồng bộ format
+                      CurrencyUtils.formatUSDtoVND(item.product.price), // Đồng bộ format
                       style: const TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
                     ),
                     _buildQuantityPicker(cart, key, item),
@@ -152,7 +155,7 @@ class CartScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildQuantityPicker(CartProvider cart, String key, dynamic item) {
+  Widget _buildQuantityPicker(CartProvider cart, String key, CartItemModel item) {
     return Container(
       decoration: BoxDecoration(
         border: Border.all(color: Colors.grey[300]!),
@@ -194,7 +197,7 @@ class CartScreen extends StatelessWidget {
               children: [
                 const Text('Tổng cộng:', style: TextStyle(color: Colors.grey)),
                 Text(
-                  CurrencyUtils.formatVND(cart.totalAmount * 25000),
+                  CurrencyUtils.formatUSDtoVND(cart.totalAmount),
                   style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.blue),
                 ),
               ],
@@ -202,7 +205,9 @@ class CartScreen extends StatelessWidget {
             const SizedBox(width: 24),
             Expanded(
               child: ElevatedButton(
-                onPressed: cart.totalAmount > 0 ? () {} : null,
+                onPressed: cart.totalAmount > 0 ? () {
+                  Navigator.pushNamed(context, AppRoutes.checkout);
+                } : null,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.blue,
                   foregroundColor: Colors.white,

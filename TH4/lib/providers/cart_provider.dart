@@ -11,7 +11,7 @@ class CartProvider with ChangeNotifier {
     _initCart();
   }
 
-  // Tải dữ liệu từ local storage khi khởi tạo
+  /// Tải dữ liệu từ local storage khi khởi tạo
   Future<void> _initCart() async {
     final savedItems = await _storageService.loadCart();
     for (var item in savedItems) {
@@ -20,22 +20,23 @@ class CartProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  // Lưu dữ liệu vào local storage
+  /// Lưu dữ liệu vào local storage
   Future<void> _saveToStorage() async {
     await _storageService.saveCart(_items.values.toList());
   }
 
+  /// Trả về bản sao danh sách sản phẩm trong giỏ hàng
   Map<String, CartItemModel> get items => {..._items};
 
-  // Số lượng loại sản phẩm khác nhau trong giỏ
+  /// Số lượng loại sản phẩm khác nhau trong giỏ
   int get itemCount => _items.length;
 
-  // Tổng số lượng sản phẩm (ví dụ: 2 áo + 1 quần = 3)
+  /// Tổng số lượng sản phẩm (ví dụ: 2 áo + 1 quần = 3)
   int get totalQuantity {
     return _items.values.fold(0, (sum, item) => sum + item.quantity);
   }
 
-  // Tổng số tiền tính theo USD (chỉ tính những mục được tick chọn)
+  /// Tổng số tiền tính theo USD (chỉ tính những mục được tick chọn)
   double get totalAmount {
     return _items.values.where((item) => item.isChecked).fold(
           0.0,
@@ -43,21 +44,21 @@ class CartProvider with ChangeNotifier {
         );
   }
 
-  // Kiểm tra xem tất cả có được chọn hay không
+  /// Kiểm tra xem tất cả sản phẩm trong giỏ có được chọn hay không
   bool get isAllSelected {
     if (_items.isEmpty) return false;
     return _items.values.every((item) => item.isChecked);
   }
 
-  // Thêm sản phẩm vào giỏ hàng
-  void addItem(ProductModel product, String? size, String? color) {
+  /// Thêm sản phẩm vào giỏ hàng với thông tin phân loại (size, color)
+  void addItem(ProductModel product, String? size, String? color, {int quantity = 1}) {
     // Tạo khóa duy nhất kết hợp: ID_Size_Color
     final String key = '${product.id}_${size ?? ''}_${color ?? ''}';
 
     if (_items.containsKey(key)) {
       _items.update(
         key,
-        (existing) => existing.copyWith(quantity: existing.quantity + 1),
+        (existing) => existing.copyWith(quantity: existing.quantity + quantity),
       );
     } else {
       _items.putIfAbsent(
@@ -65,7 +66,7 @@ class CartProvider with ChangeNotifier {
         () => CartItemModel(
           id: key,
           product: product,
-          quantity: 1,
+          quantity: quantity,
           size: size,
           color: color,
         ),
@@ -75,14 +76,14 @@ class CartProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  // Xóa sản phẩm hoàn toàn khỏi giỏ
+  /// Xóa sản phẩm hoàn toàn khỏi giỏ hàng theo key
   void removeItem(String key) {
     _items.remove(key);
     _saveToStorage();
     notifyListeners();
   }
 
-  // Giảm số lượng
+  /// Giảm số lượng của một mục sản phẩm (tối thiểu là 1)
   void decreaseQuantity(String key) {
     if (!_items.containsKey(key)) return;
 
@@ -96,7 +97,7 @@ class CartProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  // Cập nhật số lượng trực tiếp
+  /// Cập nhật số lượng trực tiếp cho một mục sản phẩm
   void updateQuantity(String key, int quantity) {
     if (!_items.containsKey(key) || quantity < 1) return;
     _items.update(key, (existing) => existing.copyWith(quantity: quantity));
@@ -104,7 +105,7 @@ class CartProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  // Thay đổi trạng thái checkbox của một mục
+  /// Thay đổi trạng thái checkbox (chọn/bỏ chọn) của một mục sản phẩm
   void toggleCheck(String key) {
     if (!_items.containsKey(key)) return;
     _items.update(
@@ -115,7 +116,7 @@ class CartProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  // Chọn hoặc bỏ chọn tất cả
+  /// Chọn hoặc bỏ chọn tất cả sản phẩm trong giỏ hàng
   void toggleSelectAll(bool isSelected) {
     _items.forEach((key, item) {
       _items[key] = item.copyWith(isChecked: isSelected);
@@ -124,9 +125,16 @@ class CartProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  // Xóa sạch giỏ hàng
-  void clear() {
+  /// Xóa sạch toàn bộ sản phẩm trong giỏ hàng
+  void clearCart() {
     _items.clear();
+    _saveToStorage();
+    notifyListeners();
+  }
+
+  /// Xóa các mục đã được tick chọn (thường gọi sau khi thanh toán thành công)
+  void clearCheckedItems() {
+    _items.removeWhere((key, item) => item.isChecked);
     _saveToStorage();
     notifyListeners();
   }

@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:th4/core/routes.dart';
 import 'package:th4/models/product_model.dart';
+import 'package:th4/providers/cart_provider.dart';
 
 class ProductAttributesBottomSheet extends StatefulWidget {
   final ProductModel product;
+  final String actionType; // 'add' or 'buy'
 
   const ProductAttributesBottomSheet({
     super.key,
     required this.product,
+    this.actionType = 'add',
   });
 
   @override
@@ -25,6 +30,54 @@ class _ProductAttributesBottomSheetState extends State<ProductAttributesBottomSh
     {'name': 'Xám', 'color': Colors.grey},
     {'name': 'Trắng', 'color': Colors.white},
   ];
+
+  void _onConfirm() {
+    if (_selectedSize == null || _selectedColor == null) return;
+
+    final cartProvider = context.read<CartProvider>();
+    
+    // Thực sự thêm vào giỏ hàng qua Provider
+    cartProvider.addItem(
+      widget.product,
+      _selectedSize,
+      _selectedColor,
+      quantity: _quantity,
+    );
+
+    Navigator.pop(context);
+
+    if (widget.actionType == 'buy') {
+      Navigator.pushNamed(context, AppRoutes.cart);
+    } else {
+      ScaffoldMessenger.of(context).hideCurrentSnackBar();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Row(
+            children: [
+              const Icon(Icons.check_circle, color: Colors.white),
+              const SizedBox(width: 12),
+              const Expanded(
+                child: Text(
+                  'Thêm vào giỏ hàng thành công!',
+                  style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                ),
+              ),
+            ],
+          ),
+          backgroundColor: Colors.green,
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          margin: const EdgeInsets.all(16),
+          duration: const Duration(seconds: 3),
+          action: SnackBarAction(
+            label: 'XEM GIỎ',
+            textColor: Colors.white,
+            onPressed: () => Navigator.pushNamed(context, AppRoutes.cart),
+          ),
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -214,20 +267,7 @@ class _ProductAttributesBottomSheetState extends State<ProductAttributesBottomSh
           SizedBox(
             width: double.infinity,
             child: ElevatedButton(
-              onPressed: (_selectedSize != null && _selectedColor != null)
-                  ? () {
-                      Navigator.pop(context);
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(
-                            'Đã thêm vào giỏ hàng: ${widget.product.title} ($_selectedSize, $_selectedColor, SL: $_quantity)',
-                          ),
-                          behavior: SnackBarBehavior.floating,
-                          duration: const Duration(seconds: 2),
-                        ),
-                      );
-                    }
-                  : null,
+              onPressed: (_selectedSize != null && _selectedColor != null) ? _onConfirm : null,
               style: ElevatedButton.styleFrom(
                 backgroundColor: Theme.of(context).primaryColor,
                 foregroundColor: Colors.white,
@@ -237,9 +277,9 @@ class _ProductAttributesBottomSheetState extends State<ProductAttributesBottomSh
                 ),
                 disabledBackgroundColor: Colors.grey[300],
               ),
-              child: const Text(
-                'Xác nhận',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              child: Text(
+                widget.actionType == 'buy' ? 'Mua ngay' : 'Xác nhận',
+                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
             ),
           ),

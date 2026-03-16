@@ -41,13 +41,13 @@ Sản phẩm tạo sự khác biệt thông qua việc kết hợp giữa hiệu
 ## Success Criteria
 
 ### User Success
-*   **Trải nghiệm không gián đoạn:** Người dùng có thể thêm hàng vào giỏ từ màn hình Chi tiết thông qua BottomSheet mà không bị chuyển màn hình, cảm nhận được sự phản hồi tức thì qua SnackBar và Badge giỏ hàng.
-*   **Tin cậy về dữ liệu:** Giỏ hàng luôn hiển thị đúng số lượng và giá tiền được format chuẩn. Các thay đổi về số lượng (+) (-) hoặc xóa item được cập nhật Real-time.
-*   **Điều hướng mượt mà:** Sử dụng Hero Animation và SliverAppBar tạo cảm giác ứng dụng cao cấp, giúp người dùng dễ dàng theo dõi thông tin sản phẩm.
+*   **Trải nghiệm không gián đoạn:** Người dùng có thể thêm hàng vào giỏ từ màn hình Chi tiết thông qua BottomSheet mà không bị chuyển màn hình, cảm nhận được sự phản hồi tức thì qua SnackBar được thiết kế lại chuyên nghiệp và Badge giỏ hàng.
+*   **Điều hướng mượt mà:** Sử dụng Hero Animation, SliverAppBar và hiệu ứng chuyển cảnh mượt mà giữa các danh mục sản phẩm tạo cảm giác ứng dụng cao cấp.
+*   **Phản hồi xác thực:** Nhận được thông báo thành công rõ ràng sau khi đặt hàng (Success Overlay/Screen) giúp tăng sự tin cậy.
 
 ### Business Success (Mục tiêu học thuật)
-*   **Đáp ứng 100% yêu cầu bài tập:** Hoàn thiện đầy đủ 4 màn hình cốt lõi và các logic nghiệp vụ (Tick chọn tất cả, tính tổng tiền, Tab đơn mua).
-*   **Điểm số tối đa:** Đạt điểm cộng nhờ việc triển khai Data Persistence (SharedPref/Firebase) và Infinite Scrolling.
+*   **Đáp ứng 100% yêu cầu bài tập:** Hoàn thiện đầy đủ 4 màn hình cốt lõi và các logic nghiệp vụ.
+*   **Điểm số tối đa:** Đạt điểm cộng nhờ việc triển khai Data Persistence, Infinite Scrolling và các hiệu ứng Animation/Polish chuyên nghiệp.
 *   **Nộp bài đúng hạn:** Hoàn thành trước buổi học TH5 theo yêu cầu của giảng viên.
 
 ### Technical Success

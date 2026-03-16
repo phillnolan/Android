@@ -15,12 +15,18 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateMixin {
   final ScrollController _scrollController = ScrollController();
+  late AnimationController _fadeController;
 
   @override
   void initState() {
     super.initState();
+    _fadeController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 300),
+    );
+    _fadeController.forward();
     _scrollController.addListener(_onScroll);
     Future.microtask(
       () {
@@ -33,6 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void dispose() {
     _scrollController.dispose();
+    _fadeController.dispose();
     super.dispose();
   }
 
@@ -113,6 +120,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   child: TextField(
+                    onChanged: (value) => context.read<ProductProvider>().searchProducts(value),
                     decoration: InputDecoration(
                       hintText: 'Tìm kiếm sản phẩm...',
                       prefixIcon: const Icon(Icons.search),
@@ -133,7 +141,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Column(
                 children: [
                   const BannerSlider(),
-                  _buildCategorySection(),
+                  _buildCategorySection(context),
                   const Padding(
                     padding:
                         EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
@@ -174,65 +182,78 @@ class _HomeScreenState extends State<HomeScreen> {
                 }
 
                 if (state is ApiSuccess) {
-                  final products = (state as ApiSuccess).data;
-                  return SliverPadding(
-                    padding: const EdgeInsets.all(10),
-                    sliver: SliverMainAxisGroup(
-                      slivers: [
-                        SliverGrid(
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            childAspectRatio: 0.7,
-                            mainAxisSpacing: 10,
-                            crossAxisSpacing: 10,
-                          ),
-                          delegate: SliverChildBuilderDelegate(
-                            (context, index) {
-                              return ProductCard(
-                                product: products[index],
-                                onTap: () {
-                                  Navigator.pushNamed(
-                                    context,
-                                    AppRoutes.detail,
-                                    arguments: products[index],
-                                  );
-                                },
-                              );
-                            },
-                            childCount: products.length,
-                          ),
-                        ),
-                        if (provider.isLoadingMore)
-                          SliverPadding(
-                            padding: const EdgeInsets.symmetric(vertical: 20),
-                            sliver: SliverGrid(
-                              gridDelegate:
-                                  const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2,
-                                childAspectRatio: 0.7,
-                                mainAxisSpacing: 10,
-                                crossAxisSpacing: 10,
-                              ),
-                              delegate: SliverChildBuilderDelegate(
-                                (context, index) => _buildShimmerCard(),
-                                childCount: 2,
-                              ),
+                  final products = provider.filteredProducts;
+
+                  if (products.isEmpty) {
+                    return const SliverFillRemaining(
+                      hasScrollBody: false,
+                      child: Center(
+                        child: Text('Không tìm thấy sản phẩm nào 🔍'),
+                      ),
+                    );
+                  }
+
+                  return SliverFadeTransition(
+                    opacity: _fadeController,
+                    sliver: SliverPadding(
+                      padding: const EdgeInsets.all(10),
+                      sliver: SliverMainAxisGroup(
+                        slivers: [
+                          SliverGrid(
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              childAspectRatio: 0.7,
+                              mainAxisSpacing: 10,
+                              crossAxisSpacing: 10,
+                            ),
+                            delegate: SliverChildBuilderDelegate(
+                              (context, index) {
+                                return ProductCard(
+                                  product: products[index],
+                                  onTap: () {
+                                    Navigator.pushNamed(
+                                      context,
+                                      AppRoutes.detail,
+                                      arguments: products[index],
+                                    );
+                                  },
+                                );
+                              },
+                              childCount: products.length,
                             ),
                           ),
-                        if (!provider.hasMore && products.isNotEmpty)
-                          const SliverToBoxAdapter(
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(vertical: 32.0),
-                              child: Center(
-                                child: Text(
-                                  'Bạn đã xem hết sản phẩm rồi ✨',
-                                  style: TextStyle(color: Colors.grey),
+                          if (provider.isLoadingMore && provider.hasMore)
+                            SliverPadding(
+                              padding: const EdgeInsets.symmetric(vertical: 20),
+                              sliver: SliverGrid(
+                                gridDelegate:
+                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
+                                  childAspectRatio: 0.7,
+                                  mainAxisSpacing: 10,
+                                  crossAxisSpacing: 10,
+                                ),
+                                delegate: SliverChildBuilderDelegate(
+                                  (context, index) => _buildShimmerCard(),
+                                  childCount: 2,
                                 ),
                               ),
                             ),
-                          ),
-                      ],
+                          if (!provider.hasMore && products.isNotEmpty)
+                            const SliverToBoxAdapter(
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(vertical: 32.0),
+                                child: Center(
+                                  child: Text(
+                                    'Bạn đã xem hết sản phẩm rồi ✨',
+                                    style: TextStyle(color: Colors.grey),
+                                  ),
+                                ),
+                              ),
+                            ),
+                        ],
+                      ),
                     ),
                   );
                 }
@@ -252,40 +273,57 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildCategorySection() {
+  Widget _buildCategorySection(BuildContext context) {
     final List<Map<String, dynamic>> categories = [
-      {'name': 'Thời trang', 'icon': Icons.checkroom},
-      {'name': 'Điện tử', 'icon': Icons.devices},
-      {'name': 'Nhà cửa', 'icon': Icons.home},
-      {'name': 'Làm đẹp', 'icon': Icons.face},
-      {'name': 'Thể thao', 'icon': Icons.sports_soccer},
-      {'name': 'Sách', 'icon': Icons.book},
-      {'name': 'Đồ chơi', 'icon': Icons.smart_toy},
-      {'name': 'Khác', 'icon': Icons.more_horiz},
+      {'name': 'Nam', 'id': "men's clothing", 'icon': Icons.checkroom},
+      {'name': 'Nữ', 'id': "women's clothing", 'icon': Icons.woman},
+      {'name': 'Trang sức', 'id': 'jewelery', 'icon': Icons.diamond},
+      {'name': 'Điện tử', 'id': 'electronics', 'icon': Icons.devices},
+      {'name': 'Tất cả', 'id': '', 'icon': Icons.grid_view},
     ];
 
     return Container(
-      height: 180,
-      padding: const EdgeInsets.all(16),
-      child: GridView.builder(
-        physics: const NeverScrollableScrollPhysics(),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 4,
-          mainAxisSpacing: 10,
-          crossAxisSpacing: 10,
-        ),
+      height: 100,
+      padding: const EdgeInsets.symmetric(vertical: 16),
+      child: ListView.separated(
+        scrollDirection: Axis.horizontal,
+        padding: const EdgeInsets.symmetric(horizontal: 16),
         itemCount: categories.length,
+        separatorBuilder: (context, index) => const SizedBox(width: 20),
         itemBuilder: (context, index) {
-          return Column(
-            children: [
-              CircleAvatar(
-                backgroundColor: Colors.blue.withValues(alpha: 0.1),
-                child: Icon(categories[index]['icon'], color: Colors.blue),
-              ),
-              const SizedBox(height: 4),
-              Text(categories[index]['name'],
-                  style: const TextStyle(fontSize: 12)),
-            ],
+          return Consumer<ProductProvider>(
+            builder: (context, provider, child) {
+              // ignore: unused_local_variable
+              final isSelected = provider.selectedCategory == categories[index]['id'];
+              return GestureDetector(
+                onTap: () {
+                  provider.filterByCategory(categories[index]['id']);
+                  _fadeController.forward(from: 0);
+                },
+                child: Column(
+                  children: [
+                    CircleAvatar(
+                      backgroundColor: isSelected 
+                          ? Colors.blue 
+                          : Colors.blue.withValues(alpha: 0.1),
+                      child: Icon(
+                        categories[index]['icon'], 
+                        color: isSelected ? Colors.white : Colors.blue
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      categories[index]['name'],
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                        color: isSelected ? Colors.blue : Colors.black,
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
           );
         },
       ),

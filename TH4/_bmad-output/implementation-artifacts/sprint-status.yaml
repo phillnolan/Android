@@ -1,5 +1,5 @@
 # generated: 2026-03-15T09:15:00.000Z
-# last_updated: 2026-03-15T09:15:00.000Z
+# last_updated: 2026-03-16T08:30:00.000Z
 # project: TH4
 # project_key: NOKEY
 # tracking_system: file-system
@@ -35,30 +35,34 @@
 # - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
 
 generated: 2026-03-15T09:15:00.000Z
-last_updated: 2026-03-15T09:15:00.000Z
+last_updated: 2026-03-16T11:00:00.000Z
 project: TH4
 project_key: NOKEY
 tracking_system: file-system
 story_location: _bmad-output/implementation-artifacts
 
 development_status:
-  epic-1: done
+  epic-1: in-progress
   1-1-khoi-tao-project-flutter-va-cau-truc-thu-muc-chuan: done
   1-2-tich-hop-fakestore-api-va-xay-dung-data-models: done
-  1-3-man-hinh-home-voi-sliverappbar-va-search-bar-sticky: done
+  1-3-man-hinh-home-voi-sliverappbar-va-search-bar-sticky: in-progress
   1-4-hien-thi-danh-sach-san-pham-voi-infinite-scroll: done
   epic-1-retrospective: optional
 
-  epic-2: done
+  epic-2: in-progress
   2-1-chuyen-canh-sang-man-hinh-chi-tiet-voi-hero-animation: done
-  2-2-lua-chon-thuoc-tinh-san-pham-qua-bottomsheet: done
+  2-2-lua-chon-thuoc-tinh-san-pham-qua-bottomsheet: ready-for-dev
   epic-2-retrospective: optional
 
-  epic-3: done
-  3-1-xay-dung-cart-provider-va-giao-dien-gio-hang-co-ban: done
+  epic-3: in-progress
+  3-1-xay-dung-cart-provider-va-giao-dien-gio-hang-co-ban: ready-for-dev
   epic-3-retrospective: done
 
   epic-4: done
   4-1-luu-tru-gio-hang-offline-voi-sharedpreferences: done
   4-2-man-hinh-lich-su-don-hang-voi-tabbar-phan-loai: done
   epic-4-retrospective: optional
+
+  epic-5: in-progress
+  5-1-xay-dung-man-hinh-checkout-va-logic-dat-hang: review
+  epic-5-retrospective: optional

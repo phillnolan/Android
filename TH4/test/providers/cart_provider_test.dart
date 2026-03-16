@@ -1,13 +1,18 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:th4/models/product_model.dart';
 import 'package:th4/providers/cart_provider.dart';
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+  SharedPreferences.setMockInitialValues({});
+
   group('CartProvider Tests', () {
     late CartProvider cartProvider;
     late ProductModel mockProduct;
 
     setUp(() {
+      SharedPreferences.setMockInitialValues({});
       cartProvider = CartProvider();
       mockProduct = ProductModel(
         id: 1,

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:th4/core/routes.dart';
 import 'package:th4/models/product_model.dart';
+import 'package:th4/providers/cart_provider.dart';
 import 'package:th4/widgets/product_detail/product_attributes_bottom_sheet.dart';
 
 class ProductDetailScreen extends StatelessWidget {
@@ -20,7 +23,7 @@ class ProductDetailScreen extends StatelessWidget {
         },
         child: CustomScrollView(
           slivers: [
-            // 1. SliverAppBar with Hero Image
+            // 1. SliverAppBar with Hero Image and Cart Action
             SliverAppBar(
               expandedHeight: 400,
               pinned: true,
@@ -50,6 +53,45 @@ class ProductDetailScreen extends StatelessWidget {
                   ),
                 ),
               ),
+              actions: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Consumer<CartProvider>(
+                    builder: (context, cart, child) {
+                      return Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          CircleAvatar(
+                            backgroundColor: Colors.black26,
+                            child: IconButton(
+                              icon: const Icon(Icons.shopping_cart, color: Colors.white, size: 20),
+                              onPressed: () => Navigator.pushNamed(context, AppRoutes.cart),
+                            ),
+                          ),
+                          if (cart.itemCount > 0)
+                            Positioned(
+                              right: 0,
+                              top: 0,
+                              child: Container(
+                                padding: const EdgeInsets.all(2),
+                                decoration: BoxDecoration(
+                                  color: Colors.red,
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                constraints: const BoxConstraints(minWidth: 16, minHeight: 16),
+                                child: Text(
+                                  '${cart.itemCount}',
+                                  style: const TextStyle(color: Colors.white, fontSize: 10),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            ),
+                        ],
+                      );
+                    },
+                  ),
+                ),
+              ],
             ),
 
           // 2. Product Information
@@ -174,13 +216,13 @@ class ProductDetailScreen extends StatelessWidget {
               ),
               child: IconButton(
                 icon: const Icon(Icons.shopping_cart_outlined),
-                onPressed: () => _showAttributeSelector(context),
+                onPressed: () => Navigator.pushNamed(context, AppRoutes.cart),
               ),
             ),
             const SizedBox(width: 12),
             Expanded(
               child: OutlinedButton(
-                onPressed: () => _showAttributeSelector(context),
+                onPressed: () => _showAttributeSelector(context, 'add'),
                 style: OutlinedButton.styleFrom(
                   side: BorderSide(color: Theme.of(context).primaryColor),
                   foregroundColor: Theme.of(context).primaryColor,
@@ -198,7 +240,7 @@ class ProductDetailScreen extends StatelessWidget {
             const SizedBox(width: 12),
             Expanded(
               child: ElevatedButton(
-                onPressed: () => _showAttributeSelector(context),
+                onPressed: () => _showAttributeSelector(context, 'buy'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Theme.of(context).primaryColor,
                   foregroundColor: Colors.white,
@@ -219,14 +261,17 @@ class ProductDetailScreen extends StatelessWidget {
     );
   }
 
-  void _showAttributeSelector(BuildContext context) {
+  void _showAttributeSelector(BuildContext context, String actionType) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
-      builder: (context) => ProductAttributesBottomSheet(product: product),
+      builder: (context) => ProductAttributesBottomSheet(
+        product: product,
+        actionType: actionType,
+      ),
     );
   }
 }

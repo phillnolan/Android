@@ -17,6 +17,41 @@ class ProductProvider with ChangeNotifier {
   bool _hasMore = true;
   bool get hasMore => _hasMore;
 
+  String _searchQuery = '';
+  String _selectedCategory = '';
+
+  String get selectedCategory => _selectedCategory;
+
+  /// Trả về danh sách sản phẩm sau khi đã áp dụng lọc theo danh mục và tìm kiếm
+  List<ProductModel> get filteredProducts {
+    final state = _productsState;
+    if (state is ApiSuccess<List<ProductModel>>) {
+      return state.data.where((p) {
+        final matchesSearch = p.title.toLowerCase().contains(_searchQuery.toLowerCase());
+        final matchesCategory = _selectedCategory.isEmpty || p.category == _selectedCategory;
+        return matchesSearch && matchesCategory;
+      }).toList();
+    }
+    return [];
+  }
+
+  /// Cập nhật từ khóa tìm kiếm và thông báo cho UI
+  void searchProducts(String query) {
+    _searchQuery = query;
+    notifyListeners();
+  }
+
+  /// Lọc sản phẩm theo danh mục. Nếu chọn lại danh mục cũ sẽ bỏ lọc.
+  void filterByCategory(String category) {
+    if (_selectedCategory == category) {
+      _selectedCategory = ''; // Toggle off
+    } else {
+      _selectedCategory = category;
+    }
+    notifyListeners();
+  }
+
+  /// Tải danh sách sản phẩm từ API. Hỗ trợ làm mới (refresh) dữ liệu.
   Future<void> fetchProducts({bool isRefresh = false}) async {
     if (isRefresh) {
       _currentLimit = AppConstants.pageSize;
@@ -46,6 +81,7 @@ class ProductProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  /// Tải thêm sản phẩm (Infinite Scroll) bằng cách tăng giới hạn limit
   Future<void> fetchMoreProducts() async {
     if (_isLoadingMore || !_hasMore) return;
 

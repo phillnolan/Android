@@ -1,30 +1,38 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import 'package:th4/main.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart';
+import 'package:th4/providers/product_provider.dart';
+import 'package:th4/providers/cart_provider.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  TestWidgetsFlutterBinding.ensureInitialized();
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+  testWidgets('App provider integration test', (WidgetTester tester) async {
+    // Mock SharedPreferences
+    SharedPreferences.setMockInitialValues({});
+    
+    // Build a widget with Providers to verify integration
+    await tester.pumpWidget(
+      MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (_) => ProductProvider()),
+          ChangeNotifierProvider(create: (_) => CartProvider()),
+        ],
+        child: const MaterialApp(
+          home: Scaffold(
+            body: Center(child: Text('TH4 Provider Test')),
+          ),
+        ),
+      ),
+    );
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
-
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    // Verify text
+    expect(find.text('TH4 Provider Test'), findsOneWidget);
+    
+    // Verify Providers are accessible
+    final BuildContext context = tester.element(find.text('TH4 Provider Test'));
+    expect(Provider.of<ProductProvider>(context, listen: false), isNotNull);
+    expect(Provider.of<CartProvider>(context, listen: false), isNotNull);
   });
 }
