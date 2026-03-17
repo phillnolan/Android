@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:th4/l10n/app_localizations.dart';
 import 'package:th4/core/constants/app_constants.dart';
 import 'package:th4/core/constants/currency_utils.dart';
 import 'package:th4/models/product_model.dart';
@@ -16,6 +17,7 @@ class ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return GestureDetector(
       onTap: onTap,
       child: Card(
@@ -56,9 +58,9 @@ class ProductCard extends StatelessWidget {
                         color: Colors.orange,
                         borderRadius: BorderRadius.circular(8),
                       ),
-                      child: const Text(
-                        'Hot',
-                        style: TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold),
+                      child: Text(
+                        l10n.hot,
+                        style: const TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold),
                       ),
                     ),
                   ),
@@ -96,7 +98,7 @@ class ProductCard extends StatelessWidget {
                       ),
                       const Spacer(),
                       Text(
-                        'Đã bán ${product.rating.count}',
+                        '${l10n.sold} ${product.rating.count}',
                         style: const TextStyle(fontSize: 12, color: Colors.grey),
                       ),
                     ],

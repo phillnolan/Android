@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:th4/l10n/app_localizations.dart';
 import 'package:th4/core/api_state.dart';
 import 'package:th4/providers/product_provider.dart';
 import 'package:th4/providers/cart_provider.dart';
+import 'package:th4/providers/locale_provider.dart';
 import 'package:th4/core/routes.dart';
 import 'package:th4/widgets/common/product_card.dart';
+import 'package:th4/widgets/common/product_list_tile.dart';
 import 'package:th4/widgets/home/banner_slider.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -56,22 +59,54 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    
     return Scaffold(
       body: RefreshIndicator(
         onRefresh: _onRefresh,
         child: CustomScrollView(
           controller: _scrollController,
           slivers: [
-            // 1. SliverAppBar with Cart Badge
+            // 1. SliverAppBar with Cart Badge & Language Toggle
             SliverAppBar(
               pinned: true,
               expandedHeight: 120.0,
               flexibleSpace: FlexibleSpaceBar(
-                title: const Text('TH4 - Nhóm 14',
-                    style: TextStyle(color: Colors.white)),
+                title: Text(l10n.appTitle,
+                    style: const TextStyle(color: Colors.white)),
                 background: Container(color: Colors.blue),
               ),
               actions: [
+                // Language Switcher
+                Consumer<LocaleProvider>(
+                  builder: (context, provider, child) {
+                    return TextButton(
+                      onPressed: () {
+                        final nextLocale = provider.locale.languageCode == 'vi' 
+                            ? const Locale('en') 
+                            : const Locale('vi');
+                        provider.setLocale(nextLocale);
+                      },
+                      child: Text(
+                        provider.locale.languageCode.toUpperCase(),
+                        style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                      ),
+                    );
+                  },
+                ),
+                // Grid/List Toggle
+                Consumer<ProductProvider>(
+                  builder: (context, provider, child) {
+                    return IconButton(
+                      icon: Icon(
+                        provider.isGridView ? Icons.view_list : Icons.grid_view,
+                        color: Colors.white,
+                      ),
+                      onPressed: () => provider.toggleViewMode(),
+                    );
+                  },
+                ),
+                // Cart Badge
                 Consumer<CartProvider>(
                   builder: (context, cart, child) {
                     return Stack(
@@ -122,7 +157,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                   child: TextField(
                     onChanged: (value) => context.read<ProductProvider>().searchProducts(value),
                     decoration: InputDecoration(
-                      hintText: 'Tìm kiếm sản phẩm...',
+                      hintText: l10n.searchHint,
                       prefixIcon: const Icon(Icons.search),
                       filled: true,
                       fillColor: Colors.grey[200],
@@ -142,13 +177,13 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                 children: [
                   const BannerSlider(),
                   _buildCategorySection(context),
-                  const Padding(
+                  Padding(
                     padding:
-                        EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                        const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
                     child: Row(
                       children: [
-                        Text('Gợi ý cho bạn',
-                            style: TextStyle(
+                        Text(l10n.suggestForYou,
+                            style: const TextStyle(
                                 fontSize: 18, fontWeight: FontWeight.bold)),
                       ],
                     ),
@@ -157,7 +192,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
               ),
             ),
 
-            // 4. Product Grid with API State & Infinite Scroll
+            // 4. Product Grid/List with API State & Infinite Scroll
             Consumer<ProductProvider>(
               builder: (context, provider, child) {
                 final state = provider.productsState;
@@ -165,19 +200,25 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                 if (state is ApiLoading) {
                   return SliverPadding(
                     padding: const EdgeInsets.all(10),
-                    sliver: SliverGrid(
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        childAspectRatio: 0.7,
-                        mainAxisSpacing: 10,
-                        crossAxisSpacing: 10,
-                      ),
-                      delegate: SliverChildBuilderDelegate(
-                        (context, index) => _buildShimmerCard(),
-                        childCount: 6,
-                      ),
-                    ),
+                    sliver: provider.isGridView 
+                      ? SliverGrid(
+                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            childAspectRatio: 0.7,
+                            mainAxisSpacing: 10,
+                            crossAxisSpacing: 10,
+                          ),
+                          delegate: SliverChildBuilderDelegate(
+                            (context, index) => _buildShimmerCard(),
+                            childCount: 6,
+                          ),
+                        )
+                      : SliverList(
+                          delegate: SliverChildBuilderDelegate(
+                            (context, index) => _buildShimmerListTile(),
+                            childCount: 4,
+                          ),
+                        ),
                   );
                 }
 
@@ -199,46 +240,71 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                       padding: const EdgeInsets.all(10),
                       sliver: SliverMainAxisGroup(
                         slivers: [
-                          SliverGrid(
-                            gridDelegate:
-                                const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              childAspectRatio: 0.7,
-                              mainAxisSpacing: 10,
-                              crossAxisSpacing: 10,
-                            ),
-                            delegate: SliverChildBuilderDelegate(
-                              (context, index) {
-                                return ProductCard(
-                                  product: products[index],
-                                  onTap: () {
-                                    Navigator.pushNamed(
-                                      context,
-                                      AppRoutes.detail,
-                                      arguments: products[index],
-                                    );
-                                  },
-                                );
-                              },
-                              childCount: products.length,
-                            ),
-                          ),
+                          provider.isGridView
+                              ? SliverGrid(
+                                  gridDelegate:
+                                      const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2,
+                                    childAspectRatio: 0.7,
+                                    mainAxisSpacing: 10,
+                                    crossAxisSpacing: 10,
+                                  ),
+                                  delegate: SliverChildBuilderDelegate(
+                                    (context, index) {
+                                      return ProductCard(
+                                        product: products[index],
+                                        onTap: () {
+                                          Navigator.pushNamed(
+                                            context,
+                                            AppRoutes.detail,
+                                            arguments: products[index],
+                                          );
+                                        },
+                                      );
+                                    },
+                                    childCount: products.length,
+                                  ),
+                                )
+                              : SliverList(
+                                  delegate: SliverChildBuilderDelegate(
+                                    (context, index) {
+                                      return ProductListTile(
+                                        product: products[index],
+                                        onTap: () {
+                                          Navigator.pushNamed(
+                                            context,
+                                            AppRoutes.detail,
+                                            arguments: products[index],
+                                          );
+                                        },
+                                      );
+                                    },
+                                    childCount: products.length,
+                                  ),
+                                ),
                           if (provider.isLoadingMore && provider.hasMore)
                             SliverPadding(
                               padding: const EdgeInsets.symmetric(vertical: 20),
-                              sliver: SliverGrid(
-                                gridDelegate:
-                                    const SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 2,
-                                  childAspectRatio: 0.7,
-                                  mainAxisSpacing: 10,
-                                  crossAxisSpacing: 10,
-                                ),
-                                delegate: SliverChildBuilderDelegate(
-                                  (context, index) => _buildShimmerCard(),
-                                  childCount: 2,
-                                ),
-                              ),
+                              sliver: provider.isGridView
+                                  ? SliverGrid(
+                                      gridDelegate:
+                                          const SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount: 2,
+                                        childAspectRatio: 0.7,
+                                        mainAxisSpacing: 10,
+                                        crossAxisSpacing: 10,
+                                      ),
+                                      delegate: SliverChildBuilderDelegate(
+                                        (context, index) => _buildShimmerCard(),
+                                        childCount: 2,
+                                      ),
+                                    )
+                                  : SliverList(
+                                      delegate: SliverChildBuilderDelegate(
+                                        (context, index) => _buildShimmerListTile(),
+                                        childCount: 1,
+                                      ),
+                                    ),
                             ),
                           if (!provider.hasMore && products.isNotEmpty)
                             const SliverToBoxAdapter(
@@ -270,16 +336,22 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
           ],
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => Navigator.pushNamed(context, AppRoutes.chat),
+        backgroundColor: Colors.blue,
+        child: const Icon(Icons.chat, color: Colors.white),
+      ),
     );
   }
 
   Widget _buildCategorySection(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final List<Map<String, dynamic>> categories = [
-      {'name': 'Nam', 'id': "men's clothing", 'icon': Icons.checkroom},
-      {'name': 'Nữ', 'id': "women's clothing", 'icon': Icons.woman},
-      {'name': 'Trang sức', 'id': 'jewelery', 'icon': Icons.diamond},
-      {'name': 'Điện tử', 'id': 'electronics', 'icon': Icons.devices},
-      {'name': 'Tất cả', 'id': '', 'icon': Icons.grid_view},
+      {'name': l10n.categoryMen, 'id': "men's clothing", 'icon': Icons.checkroom},
+      {'name': l10n.categoryWomen, 'id': "women's clothing", 'icon': Icons.woman},
+      {'name': l10n.categoryJewelery, 'id': 'jewelery', 'icon': Icons.diamond},
+      {'name': l10n.categoryElectronics, 'id': 'electronics', 'icon': Icons.devices},
+      {'name': l10n.categoryAll, 'id': '', 'icon': Icons.grid_view},
     ];
 
     return Container(
@@ -293,7 +365,6 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
         itemBuilder: (context, index) {
           return Consumer<ProductProvider>(
             builder: (context, provider, child) {
-              // ignore: unused_local_variable
               final isSelected = provider.selectedCategory == categories[index]['id'];
               return GestureDetector(
                 onTap: () {
@@ -335,6 +406,21 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
       baseColor: Colors.grey[300]!,
       highlightColor: Colors.grey[100]!,
       child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildShimmerListTile() {
+    return Shimmer.fromColors(
+      baseColor: Colors.grey[300]!,
+      highlightColor: Colors.grey[100]!,
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+        height: 120,
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(12),

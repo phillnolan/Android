@@ -1,0 +1,20 @@
+{
+  "appTitle": "TH4 E-commerce",
+  "searchHint": "Search products...",
+  "categoryAll": "All",
+  "categoryMen": "Men",
+  "categoryWomen": "Women",
+  "categoryJewelery": "Jewelery",
+  "categoryElectronics": "Electronics",
+  "cartTitle": "My Cart",
+  "addToCart": "Add to cart",
+  "hot": "Hot",
+  "sold": "Sold",
+  "emptyCart": "Your cart is empty",
+  "checkout": "Checkout",
+  "total": "Total",
+  "home": "Home",
+  "orders": "Orders",
+  "productDetail": "Product Detail",
+  "suggestForYou": "Suggested for you"
+}

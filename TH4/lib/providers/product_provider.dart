@@ -19,8 +19,15 @@ class ProductProvider with ChangeNotifier {
 
   String _searchQuery = '';
   String _selectedCategory = '';
+  bool _isGridView = true;
 
   String get selectedCategory => _selectedCategory;
+  bool get isGridView => _isGridView;
+
+  void toggleViewMode() {
+    _isGridView = !_isGridView;
+    notifyListeners();
+  }
 
   /// Trả về danh sách sản phẩm sau khi đã áp dụng lọc theo danh mục và tìm kiếm
   List<ProductModel> get filteredProducts {
