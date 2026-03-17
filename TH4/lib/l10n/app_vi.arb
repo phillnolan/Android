@@ -1,0 +1,20 @@
+{
+  "appTitle": "TH4 Điện máy",
+  "searchHint": "Tìm kiếm sản phẩm...",
+  "categoryAll": "Tất cả",
+  "categoryMen": "Nam",
+  "categoryWomen": "Nữ",
+  "categoryJewelery": "Trang sức",
+  "categoryElectronics": "Điện tử",
+  "cartTitle": "Giỏ hàng của tôi",
+  "addToCart": "Thêm vào giỏ",
+  "hot": "Hot",
+  "sold": "Đã bán",
+  "emptyCart": "Giỏ hàng của bạn đang trống",
+  "checkout": "Thanh toán",
+  "total": "Tổng cộng",
+  "home": "Trang chủ",
+  "orders": "Đơn hàng",
+  "productDetail": "Chi tiết sản phẩm",
+  "suggestForYou": "Gợi ý cho bạn"
+}
