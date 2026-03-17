@@ -1,0 +1,2 @@
+description = "Quản lý các thay đổi đáng kể trong quá trình thực hiện sprint. Sử dụng khi người dùng yêu cầu \"điều chỉnh tiến độ\" hoặc \"đề xuất thay đổi sprint\"."
+prompt = "activate_skill(name='bmad-correct-course')"

@@ -1,0 +1,2 @@
+description = "Triển khai Thông số kỹ thuật nhanh (Quick Tech Spec) cho các thay đổi hoặc tính năng nhỏ. Sử dụng khi người dùng cung cấp một thông số kỹ thuật nhanh và yêu cầu \"triển khai thông số này\" hoặc \"tiếp tục triển khai [thông số kỹ thuật nhanh]\"."
+prompt = "activate_skill(name='bmad-quick-dev')"

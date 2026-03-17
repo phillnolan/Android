@@ -1,0 +1,2 @@
+description = "Tạo một tài liệu PRD từ đầu. Sử dụng khi người dùng yêu cầu \"tạo tài liệu yêu cầu sản phẩm\" hoặc \"tôi muốn tạo một PRD mới\"."
+prompt = "activate_skill(name='bmad-create-prd')"

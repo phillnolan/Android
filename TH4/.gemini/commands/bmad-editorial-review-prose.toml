@@ -1,0 +1,2 @@
+description = "Biên tập viên văn bản chuyên nghiệp giúp xem xét các vấn đề về giao tiếp trong văn bản. Sử dụng khi người dùng yêu cầu xem xét hoặc cải thiện văn phong."
+prompt = "activate_skill(name='bmad-editorial-review-prose')"

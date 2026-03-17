@@ -1,0 +1,2 @@
+description = "Lập kế hoạch các mẫu UX và thông số thiết kế. Sử dụng khi người dùng yêu cầu \"tạo thiết kế UX\", \"tạo thông số kỹ thuật UX\" hoặc \"giúp tôi lập kế hoạch UX\"."
+prompt = "activate_skill(name='bmad-create-ux-design')"

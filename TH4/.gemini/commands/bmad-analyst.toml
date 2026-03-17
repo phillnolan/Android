@@ -1,0 +1,2 @@
+description = "Tác nhân phân tích"
+prompt = "activate_skill(name='bmad-analyst')"

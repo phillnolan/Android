@@ -1,0 +1,2 @@
+description = "Xác thực xem các thông số kỹ thuật PRD, UX, Kiến trúc và Epic đã hoàn thiện chưa. Sử dụng khi người dùng yêu cầu \"kiểm tra mức độ sẵn sàng triển khai\"."
+prompt = "activate_skill(name='bmad-check-implementation-readiness')"

@@ -1,0 +1,2 @@
+description = "Tạo theo dõi trạng thái sprint từ các epic. Sử dụng khi người dùng yêu cầu \"thực hiện lập kế hoạch sprint\" hoặc \"tạo kế hoạch sprint\""
+prompt = "activate_skill(name='bmad-sprint-planning')"

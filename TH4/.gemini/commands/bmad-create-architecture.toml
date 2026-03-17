@@ -1,0 +1,2 @@
+description = "Tạo các quyết định thiết kế giải pháp kiến trúc để đảm bảo tính nhất quán của tác nhân AI. Sử dụng khi người dùng yêu cầu \"tạo kiến trúc\", \"tạo kiến trúc kỹ thuật\" hoặc \"tạo thiết kế giải pháp\"."
+prompt = "activate_skill(name='bmad-create-architecture')"

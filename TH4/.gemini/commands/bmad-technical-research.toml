@@ -1,0 +1,2 @@
+description = "Thực hiện nghiên cứu kỹ thuật về các công nghệ và kiến trúc. Sử dụng khi người dùng yêu cầu \"tạo báo cáo nghiên cứu kỹ thuật về [chủ đề]\"."
+prompt = "activate_skill(name='bmad-technical-research')"

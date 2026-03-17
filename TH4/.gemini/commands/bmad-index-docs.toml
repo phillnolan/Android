@@ -1,0 +1,2 @@
+description = "Tạo hoặc cập nhật tệp index.md để tham chiếu tất cả các tài liệu trong thư mục. Sử dụng khi người dùng yêu cầu tạo hoặc cập nhật mục lục cho tất cả các tệp trong một thư mục cụ thể."
+prompt = "activate_skill(name='bmad-index-docs')"

@@ -1,0 +1,2 @@
+description = "Tài liệu hóa các dự án cũ (brownfield) để cung cấp ngữ cảnh cho AI. Sử dụng khi người dùng yêu cầu \"tài liệu hóa dự án này\" hoặc \"tạo tài liệu dự án\"."
+prompt = "activate_skill(name='bmad-document-project')"

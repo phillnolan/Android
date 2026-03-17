@@ -1,0 +1,2 @@
+description = "Đánh giá sau khi hoàn thành epic để rút ra các bài học và đánh giá mức độ thành công. Sử dụng khi người dùng yêu cầu \"thực hiện đánh giá lại (retrospective)\" hoặc \"hãy đánh giá lại epic [tên epic]\""
+prompt = "activate_skill(name='bmad-retrospective')"

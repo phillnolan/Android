@@ -1,0 +1,2 @@
+description = "Kiểm tra mọi nhánh rẽ và điều kiện biên trong nội dung, chỉ báo cáo các trường hợp ngoại lệ chưa được xử lý. Độc lập với đánh giá phản biện - tập trung vào phương pháp hơn là thái độ."
+prompt = "activate_skill(name='bmad-review-edge-case-hunter')"

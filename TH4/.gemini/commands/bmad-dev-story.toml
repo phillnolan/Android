@@ -1,0 +1,2 @@
+description = "Thực hiện triển khai story theo tệp thông số story đã có sẵn ngữ cảnh. Sử dụng khi người dùng yêu cầu \"phát triển story này [tệp story]\" hoặc \"triển khai story tiếp theo trong kế hoạch sprint\"."
+prompt = "activate_skill(name='bmad-dev-story')"

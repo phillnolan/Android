@@ -1,0 +1,2 @@
+description = "Chia nhỏ các tài liệu markdown lớn thành các tệp nhỏ hơn, có tổ chức dựa trên các tiêu đề cấp 2 (mặc định). Sử dụng khi người dùng yêu cầu chia nhỏ tài liệu (shard document)"
+prompt = "activate_skill(name='bmad-shard-doc')"

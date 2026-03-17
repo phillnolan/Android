@@ -1,0 +1,2 @@
+description = "Phân chia các yêu cầu thành các epic và user story. Sử dụng khi người dùng yêu cầu \"tạo danh sách epic và story\"."
+prompt = "activate_skill(name='bmad-create-epics-and-stories')"

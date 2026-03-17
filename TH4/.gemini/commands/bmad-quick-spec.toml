@@ -1,0 +1,2 @@
+description = "Quy trình cực kỳ nhanh chóng để tạo các đặc tả kỹ thuật sẵn sàng triển khai cho các thay đổi nhỏ hoặc tính năng mới. Sử dụng khi người dùng yêu cầu \"tạo một spec nhanh\" hoặc \"tạo một spec kỹ thuật nhanh\""
+prompt = "activate_skill(name='bmad-quick-spec')"

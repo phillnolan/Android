@@ -1,0 +1,2 @@
+description = "Tạo các bài kiểm tra tự động đầu cuối (end-to-end) cho các tính năng hiện có. Sử dụng khi người dùng yêu cầu \"tạo kiểm tra tự động QA cho [tính năng]\"."
+prompt = "activate_skill(name='bmad-qa-generate-e2e-tests')"

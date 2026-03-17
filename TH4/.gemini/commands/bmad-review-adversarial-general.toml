@@ -1,0 +1,2 @@
+description = "Thực hiện đánh giá mang tính phản biện (Cynical Review) và tạo báo cáo kết quả. Sử dụng khi người dùng yêu cầu đánh giá phê bình về một nội dung nào đó"
+prompt = "activate_skill(name='bmad-review-adversarial-general')"
